@@ -118,6 +118,9 @@ def WeakFileLock(
                 )
                 lock = SoftFileLock(lock_file, timeout=log_interval)
                 continue
+        except PermissionError as e:
+            logger.warning("PermissionError when acquiring lock on %s", lock_file)
+            raise e
         else:
             break
 
